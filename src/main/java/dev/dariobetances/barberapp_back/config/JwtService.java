@@ -1,6 +1,5 @@
 package dev.dariobetances.barberapp_back.config;
 
-import dev.dariobetances.barberapp_back.model.Appoinment;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,13 +18,18 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 
+    @Value("${jwt.expiration}")
+    private long expiration;
+
     //Generate a token from a logged user;
     public String generateToken(UserDetails userDetails) {
+        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername()) //email
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) //10 hours
-                .signWith(getSigningKey(), SignatureAlgorithm.ES256)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration)) //20 hours
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 

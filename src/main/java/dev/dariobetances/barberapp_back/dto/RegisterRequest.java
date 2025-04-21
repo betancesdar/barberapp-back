@@ -1,11 +1,10 @@
 package dev.dariobetances.barberapp_back.dto;
 
+import dev.dariobetances.barberapp_back.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.management.relation.Role;
 
 @Data
 @Builder
